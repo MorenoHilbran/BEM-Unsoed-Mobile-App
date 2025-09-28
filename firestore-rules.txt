@@ -1,0 +1,26 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Users collection - hanya user yang bisa akses data sendiri
+    match /users/{userId} {
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+    }
+
+    // Posts collection - semua authenticated users bisa read/write
+    match /posts/{postId} {
+      allow read, write: if request.auth != null;
+    }
+
+    // Comments collection - semua authenticated users bisa read/write
+    match /comments/{commentId} {
+      allow read, write: if request.auth != null;
+    }
+
+    // Events collection - semua authenticated users bisa read, hanya admin yang bisa write
+    match /events/{eventId} {
+      allow read: if request.auth != null;
+      allow write: if request.auth != null && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin';
+    }
+  }
+}
+

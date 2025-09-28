@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "84069376033",
+    "project_id": "bem-unsoed-badfc",
+    "storage_bucket": "bem-unsoed-badfc.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:84069376033:android:265c4a770c9a0b3f308360",
+        "android_client_info": {
+          "package_name": "com.example.bemunsoed"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCnnGxtqyBsBWH7qM4YoP7odDJenRMahOg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,76 @@
+<resources>
+    <string name="app_name">BEM Unsoed</string>
+    <string name="title_home">Beranda</string>
+    <string name="title_dashboard">Forum</string>
+    <string name="title_notifications">Profil</string>
+
+    <!-- Event strings -->
+    <string name="event_title">Event Terdekat</string>
+    <string name="event_register">Daftar</string>
+    <string name="event_remind">Ingatkan</string>
+    <string name="event_cover_desc">Event Cover Image</string>
+
+    <!-- Feed strings -->
+    <string name="feed_like">Suka</string>
+    <string name="feed_comment">Komentar</string>
+    <string name="feed_report">Laporkan</string>
+    <string name="create_post">Buat Post</string>
+    <string name="post">Post</string>
+    <string name="close">Tutup</string>
+    <string name="whats_happening">Apa yang sedang kamu pikirkan?</string>
+
+    <!-- Profile strings -->
+    <string name="profile_posts">Post Saya</string>
+    <string name="profile_saved">Tersimpan</string>
+    <string name="profile_settings">Pengaturan</string>
+    <string name="edit_profile">Edit Profil</string>
+    <string name="logout">Keluar</string>
+    <string name="profile_name">John Doe</string>
+    <string name="profile_bio">Mahasiswa Teknik Informatika | Content Creator</string>
+    <string name="profile_posts_count">42 Posts</string>
+    <string name="profile_separator"> • </string>
+    <string name="profile_joined_date">Joined September 2024</string>
+    <string name="recent_activity">Recent Activity</string>
+    <string name="view_all">View All</string>
+    <string name="profile_photo_desc">Profile Photo</string>
+    <string name="profile_background_desc">Profile Background Image</string>
+
+    <!-- Kost strings -->
+    <string name="kost_title">Info Kost</string>
+    <string name="contact_whatsapp">Hubungi via WhatsApp</string>
+
+    <!-- General -->
+    <string name="shortcut_podcast">Podcast</string>
+    <string name="shortcut_comic">Komik</string>
+    <string name="shortcut_magazine">E-Magz</string>
+    <string name="merch_image_desc">Merchandise Image</string>
+
+    <!-- Home strings -->
+    <string name="shortcut_kost">Info Kos</string>
+    <string name="shortcut_kuliner">Kuliner</string>
+    <string name="gensoed_merch">Gensoed Merch</string>
+    <string name="lihat_semua">Lihat Semua</string>
+    <string name="menu_icon_desc">Menu Icon</string>
+    <string name="banner_desc">Banner Image</string>
+
+    <!-- Authentication strings -->
+    <string name="app_logo_desc">App Logo</string>
+    <string name="login_subtitle">Masuk ke akun BEM Unsoed Anda</string>
+    <string name="login_title">Masuk</string>
+    <string name="register_title">Daftar Akun</string>
+    <string name="register_subtitle">Daftar sebagai mahasiswa Unsoed untuk mengakses semua fitur</string>
+    <string name="email_hint">Email</string>
+    <string name="password_hint">Password</string>
+    <string name="confirm_password_hint">Konfirmasi Password</string>
+    <string name="full_name_hint">Nama Lengkap</string>
+    <string name="nim_hint">NIM</string>
+    <string name="major_hint">Jurusan</string>
+    <string name="forgot_password">Lupa Password?</string>
+    <string name="login_button">Masuk</string>
+    <string name="register_button">Daftar</string>
+    <string name="dont_have_account">Belum punya akun?</string>
+    <string name="register_link">Daftar</string>
+    <string name="already_have_account">Sudah punya akun?</string>
+    <string name="login_link">Masuk</string>
+    <string name="back_button">Kembali</string>
+</resources>
