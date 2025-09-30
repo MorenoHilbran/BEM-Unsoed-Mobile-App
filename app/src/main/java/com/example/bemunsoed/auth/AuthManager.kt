@@ -50,7 +50,7 @@ class AuthManager {
             val user = result.user
 
             if (user != null) {
-                // Save additional user data to Firestore
+                // Save additional user data to Firestore tanpa role
                 val userData = hashMapOf(
                     "uid" to user.uid,
                     "email" to email,
@@ -90,6 +90,20 @@ class AuthManager {
             }
         } catch (e: Exception) {
             AuthenticationResult.Error(e.message ?: "Login failed")
+        }
+    }
+
+    // Anonymous login untuk akses public data
+    suspend fun signInAnonymously(): AuthenticationResult {
+        return try {
+            val result = auth.signInAnonymously().await()
+            if (result.user != null) {
+                AuthenticationResult.Success(result.user!!)
+            } else {
+                AuthenticationResult.Error("Anonymous login failed")
+            }
+        } catch (e: Exception) {
+            AuthenticationResult.Error("Anonymous login error: ${e.message}")
         }
     }
 

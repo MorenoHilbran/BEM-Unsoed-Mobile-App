@@ -1,13 +1,11 @@
 package com.example.bemunsoed.data.model
 
-data class Merch(
+data class Banner(
     val id: String = "",
-    val name: String = "",
-    val description: String = "",
-    val price: String = "",
+    val title: String = "",
     val imageUrl: String = "",
     val linkUrl: String = "",
-    val category: String = "",
     val isActive: Boolean = true,
+    val order: Int = 0,
     val createdAt: Long = System.currentTimeMillis()
 )

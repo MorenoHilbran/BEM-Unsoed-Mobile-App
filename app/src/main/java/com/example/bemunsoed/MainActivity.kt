@@ -76,18 +76,13 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupNavbarClickListeners() {
-        // Search icon click
-        findViewById<View>(R.id.search_icon)?.setOnClickListener {
-            // TODO: Implement search functionality
-        }
-
-        // Notification icon click
+        // Notification icon click (tetap sama)
         findViewById<View>(R.id.notification_icon)?.setOnClickListener {
-            // TODO: Implement notification dropdown
+            // TODO: Implement notification functionality
         }
 
-        // Profile icon click - show logout option
-        findViewById<View>(R.id.profile_icon)?.setOnClickListener {
+        // Logout icon click (baru)
+        findViewById<View>(R.id.logout_icon)?.setOnClickListener {
             showLogoutDialog()
         }
     }
@@ -99,13 +94,20 @@ class MainActivity : AppCompatActivity() {
         builder.setPositiveButton("Ya") { _, _ ->
             performLogout()
         }
-        builder.setNegativeButton("Batal", null)
+        builder.setNegativeButton("Batal") { dialog, _ ->
+            dialog.dismiss()
+        }
         builder.show()
     }
 
     private fun performLogout() {
+        // Logout dari Firebase
         authManager.logout()
-        startActivity(Intent(this, LoginActivity::class.java))
+
+        // Redirect ke login activity
+        val intent = Intent(this, LoginActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        startActivity(intent)
         finish()
     }
 }

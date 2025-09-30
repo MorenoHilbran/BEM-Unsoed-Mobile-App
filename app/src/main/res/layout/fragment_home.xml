@@ -296,7 +296,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    tools:listitem="@layout/item_merch_card" />
+                    tools:listitem="@layout/item_merch" />
 
             </LinearLayout>
 
