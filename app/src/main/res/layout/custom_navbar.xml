@@ -23,12 +23,12 @@
 
         <ImageView
             android:id="@+id/notification_icon"
-            android:layout_width="28dp"
-            android:layout_height="28dp"
-            android:src="@drawable/ic_notifications"
-            android:contentDescription="Notifications"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:background="?attr/selectableItemBackgroundBorderless"
-            android:padding="6dp" />
+            android:contentDescription="Notifications"
+            android:padding="6dp"
+            android:src="@drawable/ic_notification" />
 
         <!-- Badge will be added programmatically -->
     </FrameLayout>

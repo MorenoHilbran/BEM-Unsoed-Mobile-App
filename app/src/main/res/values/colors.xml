@@ -12,7 +12,7 @@
 
     <!-- App colors -->
     <color name="colorPrimary">#FF6200EE</color>
-    <color name="colorPrimaryVariant">#FF3700B3</color>
+    <color name="colorPrimaryVariant">#DF7CB0</color>
     <color name="colorOnPrimary">#FFFFFFFF</color>
     <color name="colorSecondary">#FF03DAC6</color>
     <color name="colorSecondaryVariant">#FF018786</color>
@@ -20,9 +20,9 @@
 
     <!-- Missing colors that drawable/layout files are referencing -->
     <color name="primary">#FF6200EE</color>
-    <color name="primary_color">#FF6200EE</color>
+    <color name="primary_color">#FFB002</color>
     <color name="primary_variant">#FF3700B3</color>
-    <color name="secondary_color">#FF03DAC6</color>
+    <color name="secondary_color">#047938</color>
 
     <!-- Background colors -->
     <color name="background_color">#FFF5F5F5</color>

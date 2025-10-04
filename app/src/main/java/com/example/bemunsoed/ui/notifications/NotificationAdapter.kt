@@ -91,7 +91,7 @@ class NotificationAdapter(
                     ivTypeIcon.setColorFilter(ContextCompat.getColor(itemView.context, android.R.color.holo_blue_light))
                 }
                 else -> {
-                    ivTypeIcon.setImageResource(R.drawable.ic_notifications)
+                    ivTypeIcon.setImageResource(R.drawable.ic_notification)
                     ivTypeIcon.clearColorFilter()
                 }
             }

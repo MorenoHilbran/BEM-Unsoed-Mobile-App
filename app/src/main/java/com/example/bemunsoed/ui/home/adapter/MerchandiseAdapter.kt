@@ -21,7 +21,7 @@ class MerchandiseAdapter(private val merchandiseList: List<MerchandiseItem>) :
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MerchandiseViewHolder {
         val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.item_merchandise_card, parent, false)
+            .inflate(R.layout.item_merch, parent, false)
         return MerchandiseViewHolder(view)
     }
 

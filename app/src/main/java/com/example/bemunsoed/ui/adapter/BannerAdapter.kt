@@ -31,7 +31,7 @@ class BannerAdapter(
             val title = banner["title"] as? String ?: ""
 
             // Use placeholder image for now
-            holder.bannerImage.setImageResource(R.drawable.test1)
+            holder.bannerImage.setImageResource(R.drawable.pesta_rakyat)
 
             // Set click listener to open link
             holder.bannerImage.setOnClickListener {

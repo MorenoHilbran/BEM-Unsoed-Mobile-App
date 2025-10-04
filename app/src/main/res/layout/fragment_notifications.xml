@@ -58,16 +58,17 @@
                 </androidx.cardview.widget.CardView>
 
                 <!-- Edit Profile Button -->
-                <Button
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/btn_edit_profile"
+                    style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
                     android:layout_width="wrap_content"
-                    android:layout_height="36dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
                     android:layout_marginEnd="20dp"
-                    android:layout_marginTop="20dp"
                     android:text="@string/edit_profile"
                     android:textSize="12sp"
-                    android:textColor="#333333"
-                    android:background="@drawable/edit_profile_button_bg"
+                    app:backgroundTint="@color/secondary_color"
+                    app:cornerRadius="18dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/iv_profile_background" />
 
@@ -177,8 +178,8 @@
                     android:background="@android:color/white"
                     app:tabMode="fixed"
                     app:tabGravity="fill"
-                    app:tabIndicatorColor="@color/purple_500"
-                    app:tabSelectedTextColor="@color/purple_500"
+                    app:tabIndicatorColor="@color/colorPrimaryVariant"
+                    app:tabSelectedTextColor="@color/colorPrimaryVariant"
                     app:tabTextColor="#666666"
                     app:tabIndicatorHeight="2dp" />
 

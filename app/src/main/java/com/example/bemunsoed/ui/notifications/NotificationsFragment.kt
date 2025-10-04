@@ -264,7 +264,7 @@ class NotificationsFragment : Fragment() {
         tvUserTitle.text = if (user.jurusan.isNotEmpty() && user.angkatan.isNotEmpty()) {
             "${user.jurusan} - ${user.angkatan}"
         } else {
-            "Mahasiswa BEM Unsoed"
+            "Gensoed kece"
         }
 
         tvUserBio.text = if (!user.bio.isNullOrEmpty()) {

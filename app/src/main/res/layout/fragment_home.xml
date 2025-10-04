@@ -21,7 +21,7 @@
             <androidx.viewpager2.widget.ViewPager2
                 android:id="@+id/banner_slider"
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
+                android:layout_height="169dp"
                 android:layout_margin="16dp"
                 android:background="@drawable/banner_background" />
 
@@ -52,7 +52,6 @@
                     android:layout_weight="1"
                     android:orientation="vertical"
                     android:gravity="center"
-                    android:padding="8dp"
                     android:background="?attr/selectableItemBackgroundBorderless"
                     android:clickable="true"
                     android:focusable="true">
@@ -67,9 +66,7 @@
                         <ImageView
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:src="@drawable/ic_info_kos"
-                            android:padding="12dp"
-                            android:background="#E3F2FD"
+                            android:src="@drawable/ic_kos"
                             android:contentDescription="@string/menu_icon_desc" />
 
                     </androidx.cardview.widget.CardView>
@@ -93,7 +90,6 @@
                     android:layout_weight="1"
                     android:orientation="vertical"
                     android:gravity="center"
-                    android:padding="8dp"
                     android:background="?attr/selectableItemBackgroundBorderless"
                     android:clickable="true"
                     android:focusable="true">
@@ -108,9 +104,7 @@
                         <ImageView
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:src="@drawable/ic_kuliner"
-                            android:padding="12dp"
-                            android:background="#FFF3E0"
+                            android:src="@drawable/ic_malaka"
                             android:contentDescription="@string/menu_icon_desc" />
 
                     </androidx.cardview.widget.CardView>
@@ -134,7 +128,6 @@
                     android:layout_weight="1"
                     android:orientation="vertical"
                     android:gravity="center"
-                    android:padding="8dp"
                     android:background="?attr/selectableItemBackgroundBorderless"
                     android:clickable="true"
                     android:focusable="true">
@@ -149,9 +142,7 @@
                         <ImageView
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:src="@drawable/ic_podcast"
-                            android:padding="12dp"
-                            android:background="#F3E5F5"
+                            android:src="@drawable/ic_soedtify"
                             android:contentDescription="@string/menu_icon_desc" />
 
                     </androidx.cardview.widget.CardView>
@@ -175,7 +166,6 @@
                     android:layout_weight="1"
                     android:orientation="vertical"
                     android:gravity="center"
-                    android:padding="8dp"
                     android:background="?attr/selectableItemBackgroundBorderless"
                     android:clickable="true"
                     android:focusable="true">
@@ -184,16 +174,13 @@
                         android:layout_width="50dp"
                         android:layout_height="50dp"
                         app:cardCornerRadius="10dp"
-                        app:cardElevation="2dp"
                         android:layout_marginBottom="8dp">
 
                         <ImageView
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:src="@drawable/ic_emagz"
-                            android:padding="12dp"
-                            android:background="#E8F5E8"
-                            android:contentDescription="@string/menu_icon_desc" />
+                            android:contentDescription="@string/menu_icon_desc"
+                            android:src="@drawable/ic_emagz" />
 
                     </androidx.cardview.widget.CardView>
 
@@ -216,7 +203,6 @@
                     android:layout_weight="1"
                     android:orientation="vertical"
                     android:gravity="center"
-                    android:padding="8dp"
                     android:background="?attr/selectableItemBackgroundBorderless"
                     android:clickable="true"
                     android:focusable="true">
@@ -231,9 +217,7 @@
                         <ImageView
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:src="@drawable/ic_comic"
-                            android:padding="12dp"
-                            android:background="#FFF8E1"
+                            android:src="@drawable/ic_komik"
                             android:contentDescription="@string/menu_icon_desc" />
 
                     </androidx.cardview.widget.CardView>

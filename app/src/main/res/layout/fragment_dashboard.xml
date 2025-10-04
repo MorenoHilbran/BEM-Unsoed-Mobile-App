@@ -12,7 +12,6 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <!-- Forum Header -->
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -32,16 +31,16 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Forum"
+                    android:text="Jend-Z"
                     android:textSize="20sp"
                     android:textStyle="bold"
-                    android:textColor="@color/text_primary" />
+                    android:textColor="@color/text_primary"
+                    android:gravity="center" />
 
             </LinearLayout>
 
         </androidx.cardview.widget.CardView>
 
-        <!-- Forum Content -->
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
             android:id="@+id/swipe_refresh"
             android:layout_width="match_parent"
@@ -52,7 +51,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-                <!-- Posts RecyclerView -->
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rv_posts"
                     android:layout_width="match_parent"
@@ -61,7 +59,6 @@
                     android:paddingBottom="80dp"
                     tools:listitem="@layout/item_post" />
 
-                <!-- Loading indicator -->
                 <ProgressBar
                     android:id="@+id/progress_bar"
                     android:layout_width="wrap_content"
@@ -69,7 +66,6 @@
                     android:layout_gravity="center"
                     android:visibility="gone" />
 
-                <!-- Empty state -->
                 <LinearLayout
                     android:id="@+id/layout_empty"
                     android:layout_width="match_parent"
@@ -105,7 +101,6 @@
 
     </LinearLayout>
 
-    <!-- Floating Action Button -->
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_create_post"
         android:layout_width="wrap_content"
@@ -114,6 +109,6 @@
         android:layout_margin="16dp"
         android:src="@drawable/ic_add"
         app:tint="@android:color/white"
-        app:backgroundTint="@color/colorPrimary" />
+        app:backgroundTint="@color/secondary_color" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

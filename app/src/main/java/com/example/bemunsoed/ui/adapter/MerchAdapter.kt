@@ -46,7 +46,7 @@ class MerchAdapter(
             }
 
             // For now, use test1 image - later can implement image loading with Glide/Picasso
-            ivMerchImage.setImageResource(R.drawable.test1)
+            ivMerchImage.setImageResource(R.drawable.merch1)
 
             itemView.setOnClickListener {
                 onItemClick(merch)

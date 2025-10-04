@@ -25,19 +25,19 @@
 
         <ImageView
             android:id="@+id/nav_home_icon"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:src="@drawable/ic_home_black_24dp"
-            android:contentDescription="Home"
-            android:layout_marginBottom="4dp" />
+            android:layout_width="30dp"
+            android:layout_height="29dp"
+            android:layout_marginBottom="4dp"
+            android:contentDescription="Beranda"
+            android:src="@drawable/ic_beranda" />
 
         <TextView
             android:id="@+id/nav_home_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Home"
+            android:text="Beranda"
             android:textSize="11sp"
-            android:textColor="@color/purple_500" />
+            android:textColor="@color/grey" />
 
     </LinearLayout>
 
@@ -57,12 +57,12 @@
             android:id="@+id/nav_forum"
             android:layout_width="56dp"
             android:layout_height="56dp"
-            android:src="@drawable/ic_forum"
-            android:contentDescription="Forum"
-            android:background="@drawable/forum_button_background"
-            android:padding="16dp"
+            android:background="@drawable/bg_forum"
             android:clickable="true"
-            android:focusable="true" />
+            android:contentDescription="jendz"
+            android:focusable="true"
+            android:padding="16dp"
+            android:src="@drawable/ic_forum" />
 
     </FrameLayout>
 
@@ -83,19 +83,19 @@
 
         <ImageView
             android:id="@+id/nav_profile_icon"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:src="@drawable/ic_profile"
+            android:layout_width="29dp"
+            android:layout_height="27dp"
+            android:layout_marginBottom="4dp"
             android:contentDescription="Profile"
-            android:layout_marginBottom="4dp" />
+            android:src="@drawable/ic_profile" />
 
         <TextView
             android:id="@+id/nav_profile_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Profile"
+            android:text="Profil"
             android:textSize="11sp"
-            android:textColor="@color/purple_500" />
+            android:textColor="@color/grey" />
 
     </LinearLayout>
 
