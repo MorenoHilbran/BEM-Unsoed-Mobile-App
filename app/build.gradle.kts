@@ -70,6 +70,10 @@ dependencies {
     implementation("com.google.firebase:firebase-auth-ktx")
     implementation("com.google.firebase:firebase-firestore-ktx")
     implementation("com.google.firebase:firebase-analytics-ktx")
+    implementation("com.google.firebase:firebase-storage-ktx")
+
+    // Image loading library
+    implementation("com.github.bumptech.glide:glide:4.16.0")
 
     // Testing
     testImplementation("junit:junit:4.13.2")

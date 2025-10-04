@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- Primary colors -->
     <color name="purple_200">#FFBB86FC</color>
     <color name="purple_500">#FF6200EE</color>
     <color name="purple_700">#FF3700B3</color>
@@ -7,21 +8,38 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="grey">#FF757575</color>
 
-    <!-- BEM UNSOED Theme Colors -->
-    <color name="primary_color">#1976D2</color>
-    <color name="primary_variant">#0D47A1</color>
-    <color name="secondary_color">#FFC107</color>
-    <color name="secondary_variant">#FF8F00</color>
-    <color name="surface_color">#FFFFFF</color>
-    <color name="background_color">#F5F5F5</color>
-    <color name="error_color">#F44336</color>
+    <!-- App colors -->
+    <color name="colorPrimary">#FF6200EE</color>
+    <color name="colorPrimaryVariant">#FF3700B3</color>
+    <color name="colorOnPrimary">#FFFFFFFF</color>
+    <color name="colorSecondary">#FF03DAC6</color>
+    <color name="colorSecondaryVariant">#FF018786</color>
+    <color name="colorOnSecondary">#FF000000</color>
 
-    <!-- Text Colors -->
-    <color name="text_primary">#212121</color>
-    <color name="text_secondary">#757575</color>
+    <!-- Missing colors that drawable/layout files are referencing -->
+    <color name="primary">#FF6200EE</color>
+    <color name="primary_color">#FF6200EE</color>
+    <color name="primary_variant">#FF3700B3</color>
+    <color name="secondary_color">#FF03DAC6</color>
 
-    <!-- Card Colors -->
-    <color name="card_background">#FFFFFF</color>
-    <color name="divider_color">#E0E0E0</color>
+    <!-- Background colors -->
+    <color name="background_color">#FFF5F5F5</color>
+    <color name="surface_color">#FFFFFFFF</color>
+    <color name="error_color">#FFB00020</color>
+
+    <!-- Text colors -->
+    <color name="text_primary">#FF212121</color>
+    <color name="text_secondary">#FF757575</color>
+    <color name="text_hint">#FFBDBDBD</color>
+
+    <!-- Additional colors for UI elements -->
+    <color name="card_background">#FFFFFFFF</color>
+    <color name="divider_color">#FFE0E0E0</color>
+    <color name="accent_color">#FF2196F3</color>
+
+    <!-- Like button colors -->
+    <color name="like_color">#FFE91E63</color>
+    <color name="unlike_color">#FF9E9E9E</color>
 </resources>

@@ -50,8 +50,12 @@
     <string name="shortcut_kuliner">Kuliner</string>
     <string name="gensoed_merch">Gensoed Merch</string>
     <string name="menu_icon_desc">Menu Icon</string>
-    <string name="banner_desc">Banner Image</string>
     <string name="lihat_semua">Lihat Semua</string>
+    <string name="banner_desc">Banner Image</string>
+
+    <!-- Notification strings -->
+    <string name="post_preview_format">\"%s\"</string>
+    <string name="comment_preview_format">\"%s\"</string>
 
     <!-- Authentication strings -->
     <string name="app_logo_desc">App Logo</string>
@@ -65,6 +69,11 @@
     <string name="full_name_hint">Nama Lengkap</string>
     <string name="nim_hint">NIM</string>
     <string name="major_hint">Jurusan</string>
+    <string name="fakultas_hint">Pilih Fakultas</string>
+    <string name="jurusan_hint">Pilih Jurusan</string>
+    <string name="angkatan_hint">Pilih Angkatan</string>
+    <string name="bio_hint">Bio</string>
+    <string name="bio_placeholder">Bio akan tampil di sini...</string>
     <string name="forgot_password">Lupa Password?</string>
     <string name="login_button">Masuk</string>
     <string name="register_button">Daftar</string>

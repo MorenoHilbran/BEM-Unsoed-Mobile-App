@@ -32,12 +32,10 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="@string/title_dashboard"
+                    android:text="Forum"
                     android:textSize="20sp"
                     android:textStyle="bold"
-                    android:textColor="#1C1C1E" />
-
-                <!-- Optional: Add search or menu icon here later -->
+                    android:textColor="@color/text_primary" />
 
             </LinearLayout>
 
@@ -50,20 +48,64 @@
             android:layout_height="0dp"
             android:layout_weight="1">
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_posts"
+            <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:clipToPadding="false"
-                android:paddingBottom="80dp"
-                tools:listitem="@layout/item_post_card"
-                tools:itemCount="5" />
+                android:layout_height="match_parent">
+
+                <!-- Posts RecyclerView -->
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_posts"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:clipToPadding="false"
+                    android:paddingBottom="80dp"
+                    tools:listitem="@layout/item_post" />
+
+                <!-- Loading indicator -->
+                <ProgressBar
+                    android:id="@+id/progress_bar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:visibility="gone" />
+
+                <!-- Empty state -->
+                <LinearLayout
+                    android:id="@+id/layout_empty"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:padding="32dp"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:id="@+id/tv_no_posts"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="No posts yet"
+                        android:textSize="16sp"
+                        android:textColor="@color/text_secondary"
+                        android:gravity="center" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="Be the first to share something!"
+                        android:textSize="14sp"
+                        android:textColor="@color/text_hint"
+                        android:gravity="center" />
+
+                </LinearLayout>
+
+            </FrameLayout>
 
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     </LinearLayout>
 
-    <!-- Create Post FAB -->
+    <!-- Floating Action Button -->
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_create_post"
         android:layout_width="wrap_content"
@@ -71,9 +113,7 @@
         android:layout_gravity="bottom|end"
         android:layout_margin="16dp"
         android:src="@drawable/ic_add"
-        android:contentDescription="@string/create_post"
-        app:backgroundTint="@color/primary_color"
         app:tint="@android:color/white"
-        app:elevation="6dp" />
+        app:backgroundTint="@color/colorPrimary" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

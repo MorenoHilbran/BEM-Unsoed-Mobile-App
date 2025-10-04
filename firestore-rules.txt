@@ -1,32 +1,104 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
-    // Users collection - hanya user yang bisa akses data sendiri
+
+    // ============================================
+    // USERS COLLECTION
+    // ============================================
     match /users/{userId} {
-      allow read, write: if request.auth != null && request.auth.uid == userId;
+      allow read: if request.auth != null;
+      allow write: if request.auth != null && request.auth.uid == userId;
     }
 
-    // Posts collection - semua authenticated users bisa read/write
+    // ============================================
+    // POSTS COLLECTION
+    // ============================================
     match /posts/{postId} {
-      allow read, write: if request.auth != null;
+      // Read: semua authenticated users
+      allow read: if request.auth != null;
+
+      // Create: semua authenticated users
+      allow create: if request.auth != null;
+
+      // Update: semua authenticated users (untuk like count, dll)
+      allow update: if request.auth != null;
+
+      // Delete: HANYA owner post
+      allow delete: if request.auth != null &&
+                       request.auth.uid == resource.data.authorId;
+
+      // Subcollection likes di dalam posts
+      match /likes/{likeId} {
+        allow read, write, delete: if request.auth != null;
+      }
     }
 
-    // Comments collection - semua authenticated users bisa read/write
+    // ============================================
+    // COMMENTS COLLECTION
+    // ============================================
     match /comments/{commentId} {
-      allow read, write: if request.auth != null;
+      // Read: semua authenticated users
+      allow read: if request.auth != null;
+
+      // Create: semua authenticated users
+      allow create: if request.auth != null;
+
+      // Update: semua authenticated users (untuk like count, dll)
+      allow update: if request.auth != null;
+
+      // Delete: HANYA owner comment (simplified - no cascade check)
+      allow delete: if request.auth != null &&
+                       request.auth.uid == resource.data.authorId;
+
+      // Subcollection likes di dalam comments
+      match /likes/{likeId} {
+        allow read, write, delete: if request.auth != null;
+      }
     }
 
-    // Events collection - semua authenticated users bisa read/write (HAPUS ADMIN CHECK)
+    // ============================================
+    // LIKES COLLECTION (Root Level)
+    // ============================================
+    match /likes/{likeId} {
+      allow read, write, delete: if request.auth != null;
+    }
+
+    // ============================================
+    // NOTIFICATIONS COLLECTION
+    // ============================================
+    match /notifications/{notificationId} {
+      // Read: hanya recipient
+      allow read: if request.auth != null &&
+                     request.auth.uid == resource.data.recipientId;
+
+      // Create: semua authenticated users
+      allow create: if request.auth != null;
+
+      // Update: hanya recipient (untuk mark as read)
+      allow update: if request.auth != null &&
+                       request.auth.uid == resource.data.recipientId;
+
+      // Delete: recipient atau actor (untuk cleanup) - SIMPLIFIED
+      allow delete: if request.auth != null;
+    }
+
+    // ============================================
+    // EVENTS COLLECTION
+    // ============================================
     match /events/{eventId} {
       allow read, write: if request.auth != null;
     }
 
-    // Banners collection - semua authenticated users bisa read/write
+    // ============================================
+    // BANNERS COLLECTION
+    // ============================================
     match /banners/{bannerId} {
       allow read, write: if request.auth != null;
     }
 
-    // Merch collection - semua authenticated users bisa read/write
+    // ============================================
+    // MERCH COLLECTION
+    // ============================================
     match /merch/{merchId} {
       allow read, write: if request.auth != null;
     }

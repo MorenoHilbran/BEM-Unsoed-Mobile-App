@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Profile Photo Options -->
+    <string-array name="profile_photo_names">
+        <item>Default</item>
+        <item>Avatar 1</item>
+        <item>Avatar 2</item>
+        <item>Avatar 3</item>
+        <item>Avatar 4</item>
+        <item>Avatar 5</item>
+    </string-array>
+
+    <integer-array name="profile_photo_drawables">
+        <item>@drawable/ic_profile_placeholder</item>
+        <item>@drawable/ic_person</item>
+        <item>@drawable/ic_profile</item>
+        <item>@drawable/profil</item>
+        <item>@drawable/ic_comic</item>
+        <item>@drawable/ic_forum</item>
+    </integer-array>
+
+    <!-- Background Options -->
+    <string-array name="background_names">
+        <item>Default</item>
+        <item>Blue Gradient</item>
+        <item>Green Pattern</item>
+        <item>Orange Theme</item>
+        <item>Purple Design</item>
+    </string-array>
+
+    <integer-array name="background_drawables">
+        <item>@drawable/default_profile_bg</item>
+        <item>@drawable/profile_background</item>
+        <item>@drawable/banner_background</item>
+        <item>@drawable/button_primary</item>
+        <item>@drawable/badge_background</item>
+    </integer-array>
+</resources>
+

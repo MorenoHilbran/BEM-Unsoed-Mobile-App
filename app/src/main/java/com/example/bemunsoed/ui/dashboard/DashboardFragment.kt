@@ -4,16 +4,19 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.bemunsoed.databinding.FragmentDashboardBinding
 import com.example.bemunsoed.ui.adapter.PostAdapter
 import com.example.bemunsoed.data.model.Post
-import com.example.bemunsoed.data.model.User
-import com.google.android.material.bottomsheet.BottomSheetDialog
-import java.text.SimpleDateFormat
-import java.util.*
+import com.google.android.material.snackbar.Snackbar
+import android.util.Log
+import android.widget.Toast
+import com.example.bemunsoed.R
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 class DashboardFragment : Fragment() {
 
@@ -35,7 +38,10 @@ class DashboardFragment : Fragment() {
         setupRecyclerView()
         setupFAB()
         setupSwipeRefresh()
-        loadSampleData()
+        observeViewModel()
+
+        // Load posts when fragment is created
+        dashboardViewModel.loadPosts()
 
         return root
     }
@@ -44,7 +50,8 @@ class DashboardFragment : Fragment() {
         postAdapter = PostAdapter(
             onItemClick = { post -> handleItemClick(post) },
             onLikeClick = { post -> handleLikeClick(post) },
-            onCommentClick = { post -> handleCommentClick(post) }
+            onDeleteClick = { post -> handleDeleteClick(post) },
+            currentUserId = dashboardViewModel.getCurrentUserId()
         )
 
         binding.rvPosts.apply {
@@ -55,7 +62,7 @@ class DashboardFragment : Fragment() {
 
     private fun setupSwipeRefresh() {
         binding.swipeRefresh.setOnRefreshListener {
-            refreshPosts()
+            dashboardViewModel.refreshPosts()
         }
     }
 
@@ -65,107 +72,151 @@ class DashboardFragment : Fragment() {
         }
     }
 
-    private fun loadSampleData() {
-        // Sample data untuk testing
-        val samplePosts = listOf(
-            Post(
-                id = "1",
-                authorName = "BEM Unsoed",
-                content = "Selamat datang di Forum BEM Unsoed! Mari berdiskusi dengan positif dan konstruktif 🎉",
-                createdAt = getCurrentTime(),
-                likeCount = 15,
-                commentCount = 3,
-                isLiked = false
-            ),
-            Post(
-                id = "2",
-                authorName = "Andi Pratama",
-                content = "Ada yang tau info beasiswa terbaru ga? Lagi butuh banget nih buat semester depan",
-                createdAt = getTimeHoursAgo(2),
-                likeCount = 8,
-                commentCount = 12,
-                isLiked = true
-            ),
-            Post(
-                id = "3",
-                authorName = "Sarah Widya",
-                content = "Event workshop programming minggu depan jangan lupa daftar ya! Kuota terbatas",
-                createdAt = getTimeHoursAgo(5),
-                likeCount = 23,
-                commentCount = 7,
-                isLiked = false
-            ),
-            Post(
-                id = "4",
-                authorName = "Rizki Maulana",
-                content = "Sharing pengalaman magang di startup tech. Ada yang mau tanya-tanya?",
-                createdAt = getTimeHoursAgo(8),
-                likeCount = 31,
-                commentCount = 18,
-                isLiked = true
-            )
-        )
-        postAdapter.submitList(samplePosts)
-        binding.swipeRefresh.isRefreshing = false
-    }
+    private fun observeViewModel() {
+        // Observe posts
+        dashboardViewModel.posts.observe(viewLifecycleOwner) { posts ->
+            Log.d("DashboardFragment", "Posts updated: ${posts.size} items")
+            postAdapter.submitList(posts)
 
-    private fun handleItemClick(post: Post) {
-        // TODO: Navigate to post detail page
-        // For now, just show a placeholder
-    }
+            // Show/hide empty state
+            if (posts.isEmpty()) {
+                binding.tvNoPosts.visibility = View.VISIBLE
+                binding.rvPosts.visibility = View.GONE
+            } else {
+                binding.tvNoPosts.visibility = View.GONE
+                binding.rvPosts.visibility = View.VISIBLE
+            }
+        }
 
-    private fun handleLikeClick(post: Post) {
-        // Toggle like status (mock implementation)
-        val updatedPost = post.copy(
-            isLiked = !post.isLiked,
-            likeCount = if (post.isLiked) post.likeCount - 1 else post.likeCount + 1
-        )
+        // Observe loading state
+        dashboardViewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
+            Log.d("DashboardFragment", "Loading state: $isLoading")
+            binding.swipeRefresh.isRefreshing = isLoading
+            binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
+        }
 
-        // Update the list
-        val currentList = postAdapter.currentList.toMutableList()
-        val index = currentList.indexOfFirst { it.id == post.id }
-        if (index != -1) {
-            currentList[index] = updatedPost
-            postAdapter.submitList(currentList)
+        // Observe error messages
+        dashboardViewModel.errorMessage.observe(viewLifecycleOwner) { errorMessage ->
+            if (!errorMessage.isNullOrEmpty()) {
+                Log.w("DashboardFragment", "Error: $errorMessage")
+                Snackbar.make(binding.root, errorMessage, Snackbar.LENGTH_LONG).show()
+                dashboardViewModel.clearError()
+            }
+        }
+
+        // Observe create post result
+        dashboardViewModel.createPostResult.observe(viewLifecycleOwner) { result ->
+            result?.let {
+                if (it.isSuccess) {
+                    Toast.makeText(context, "Post created successfully!", Toast.LENGTH_SHORT).show()
+                    dashboardViewModel.refreshPosts() // Refresh to show new post
+                } else {
+                    val error = it.exceptionOrNull()?.message ?: "Failed to create post"
+                    Toast.makeText(context, error, Toast.LENGTH_SHORT).show()
+                }
+                dashboardViewModel.clearCreatePostResult()
+            }
+        }
+
+        // Observe like result
+        dashboardViewModel.likeResult.observe(viewLifecycleOwner) { result ->
+            result?.let {
+                if (it.isFailure) {
+                    val error = it.exceptionOrNull()?.message ?: "Failed to update like"
+                    Toast.makeText(context, error, Toast.LENGTH_SHORT).show()
+                }
+                dashboardViewModel.clearLikeResult()
+            }
+        }
+
+        // Observe comment result
+        dashboardViewModel.commentResult.observe(viewLifecycleOwner) { result ->
+            result?.let {
+                if (it.isSuccess) {
+                    Toast.makeText(context, "Comment added!", Toast.LENGTH_SHORT).show()
+                    dashboardViewModel.refreshPosts() // Refresh to show updated comment count
+                } else {
+                    val error = it.exceptionOrNull()?.message ?: "Failed to add comment"
+                    Toast.makeText(context, error, Toast.LENGTH_SHORT).show()
+                }
+                dashboardViewModel.clearCommentResult()
+            }
+        }
+
+        // Observe delete post result
+        dashboardViewModel.deletePostResult.observe(viewLifecycleOwner) { result ->
+            result?.let {
+                if (it.isSuccess) {
+                    Toast.makeText(context, "Post deleted successfully!", Toast.LENGTH_SHORT).show()
+                } else {
+                    val error = it.exceptionOrNull()?.message ?: "Failed to delete post"
+                    Toast.makeText(context, error, Toast.LENGTH_SHORT).show()
+                }
+                dashboardViewModel.clearDeletePostResult()
+            }
         }
     }
 
-    private fun handleCommentClick(post: Post) {
-        // TODO: Implement comment functionality
-        // For now, just show a placeholder
+    private fun handleLikeClick(post: Post) {
+        // Toggle like
+        dashboardViewModel.toggleLike(post.id)
     }
 
-    private fun handleMoreClick(post: Post) {
-        // TODO: Implement more options (report, delete if own post, etc.)
-        // For now, just show a placeholder
+    private fun handleItemClick(post: Post) {
+        // Navigate to post detail with comments
+        Log.d("DashboardFragment", "Post clicked: ${post.id}")
+        val bundle = Bundle().apply {
+            putString("postId", post.id)
+        }
+        try {
+            findNavController().navigate(R.id.postDetailFragment, bundle)
+        } catch (e: Exception) {
+            Log.e("DashboardFragment", "Navigation error", e)
+            Toast.makeText(context, "Opening post details...", Toast.LENGTH_SHORT).show()
+        }
     }
 
     private fun showCreatePostDialog() {
-        val createPostFragment = CreatePostBottomSheetFragment()
-        createPostFragment.show(parentFragmentManager, "CreatePostBottomSheet")
+        val dialogView = layoutInflater.inflate(R.layout.dialog_create_post, null)
+        val etPostContent = dialogView.findViewById<EditText>(R.id.et_post_content)
+
+        MaterialAlertDialogBuilder(requireContext())
+            .setTitle("Create New Post")
+            .setView(dialogView)
+            .setPositiveButton("Post") { _, _ ->
+                val content = etPostContent.text.toString().trim()
+                if (content.isNotEmpty()) {
+                    // Use the new createPost function that automatically includes profile photo ID
+                    dashboardViewModel.createPost(content)
+                } else {
+                    Toast.makeText(context, "Please enter some content", Toast.LENGTH_SHORT).show()
+                }
+            }
+            .setNegativeButton("Cancel", null)
+            .show()
     }
 
-    private fun refreshPosts() {
-        // Simulate refresh delay
-        binding.root.postDelayed({
-            loadSampleData()
-        }, 1000)
-    }
-
-    private fun getCurrentTime(): String {
-        val sdf = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
-        return sdf.format(Date())
-    }
-
-    private fun getTimeHoursAgo(hours: Int): String {
-        val sdf = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
-        val calendar = Calendar.getInstance()
-        calendar.add(Calendar.HOUR_OF_DAY, -hours)
-        return sdf.format(calendar.time)
+    private fun handleDeleteClick(post: Post) {
+        // Show confirmation dialog
+        MaterialAlertDialogBuilder(requireContext())
+            .setTitle("Delete Post")
+            .setMessage("Are you sure you want to delete this post? This action cannot be undone.")
+            .setPositiveButton("Delete") { _, _ ->
+                dashboardViewModel.deletePost(post.id)
+            }
+            .setNegativeButton("Cancel", null)
+            .show()
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    override fun onResume() {
+        super.onResume()
+        // Refresh posts when fragment becomes visible to ensure we show latest data
+        Log.d("DashboardFragment", "Fragment resumed, refreshing posts...")
+        dashboardViewModel.refreshPosts()
     }
 }

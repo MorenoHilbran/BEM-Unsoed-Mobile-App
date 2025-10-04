@@ -6,16 +6,19 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
-import com.example.bemunsoed.databinding.ActivityMainBinding
 import com.example.bemunsoed.auth.AuthManager
 import com.example.bemunsoed.auth.LoginActivity
+import com.example.bemunsoed.databinding.ActivityMainBinding
+import com.example.bemunsoed.ui.notifications.NotificationViewModel
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var authManager: AuthManager
+    private lateinit var notificationViewModel: NotificationViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,6 +37,9 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        // Initialize NotificationViewModel
+        notificationViewModel = ViewModelProvider(this)[NotificationViewModel::class.java]
+
         // Ensure status bar is visible and content doesn't overlap
         ViewCompat.setOnApplyWindowInsetsListener(binding.root) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
@@ -44,16 +50,18 @@ class MainActivity : AppCompatActivity() {
         setupNavigation()
         setupCustomBottomNavigation()
         setupNavbarClickListeners()
+        // setupNotificationBadge() // Badge setup disabled
+        // observeNotifications() // Notification observation disabled
     }
 
     private fun setupNavigation() {
         val navController = findNavController(R.id.nav_host_fragment_activity_main)
-
         val appBarConfiguration = AppBarConfiguration(
-            setOf(
-                R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_notifications
-            )
+            setOf(R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_notifications)
         )
+
+        // Use the navController and appBarConfiguration if needed for future navigation setup
+        // For now, custom bottom navigation is handled separately
     }
 
     private fun setupCustomBottomNavigation() {
@@ -76,15 +84,32 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupNavbarClickListeners() {
-        // Notification icon click (tetap sama)
+        // Notification icon click
         findViewById<View>(R.id.notification_icon)?.setOnClickListener {
-            // TODO: Implement notification functionality
+            openNotificationList()
         }
 
-        // Logout icon click (baru)
+        // Logout icon click
         findViewById<View>(R.id.logout_icon)?.setOnClickListener {
             showLogoutDialog()
         }
+    }
+
+
+    private fun openNotificationList() {
+        val navController = findNavController(R.id.nav_host_fragment_activity_main)
+        try {
+            navController.navigate(R.id.notificationListFragment)
+        } catch (e: Exception) {
+            // If navigation fails, show toast
+            android.widget.Toast.makeText(this, "Opening notifications...", android.widget.Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        // Refresh notification count when activity resumes
+        notificationViewModel.loadUnreadCount()
     }
 
     private fun showLogoutDialog() {

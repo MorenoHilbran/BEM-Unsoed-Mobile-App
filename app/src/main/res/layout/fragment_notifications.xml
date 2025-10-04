@@ -149,12 +149,13 @@
                 android:layout_marginTop="8dp"
                 android:background="@android:color/white">
 
-                <!-- Section Header -->
+                <!-- Section Header with Tabs -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     android:padding="16dp"
+                    android:paddingBottom="8dp"
                     android:gravity="center_vertical">
 
                     <TextView
@@ -166,27 +167,27 @@
                         android:textStyle="bold"
                         android:textColor="#333333" />
 
-                    <TextView
-                        android:id="@+id/tv_view_all_posts"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/view_all"
-                        android:textSize="12sp"
-                        android:textColor="@color/purple_500"
-                        android:background="?attr/selectableItemBackground"
-                        android:clickable="true"
-                        android:focusable="true"
-                        android:padding="4dp" />
-
                 </LinearLayout>
 
-                <!-- Posts RecyclerView -->
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rv_user_posts"
+                <!-- Tab Layout -->
+                <com.google.android.material.tabs.TabLayout
+                    android:id="@+id/tab_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:nestedScrollingEnabled="false"
-                    tools:listitem="@layout/item_user_post_card" />
+                    android:background="@android:color/white"
+                    app:tabMode="fixed"
+                    app:tabGravity="fill"
+                    app:tabIndicatorColor="@color/purple_500"
+                    app:tabSelectedTextColor="@color/purple_500"
+                    app:tabTextColor="#666666"
+                    app:tabIndicatorHeight="2dp" />
+
+                <!-- ViewPager2 for Posts and Comments -->
+                <androidx.viewpager2.widget.ViewPager2
+                    android:id="@+id/view_pager"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:minHeight="200dp" />
 
             </LinearLayout>
 

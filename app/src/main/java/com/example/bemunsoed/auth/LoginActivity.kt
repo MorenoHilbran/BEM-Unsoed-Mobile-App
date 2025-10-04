@@ -3,12 +3,17 @@ package com.example.bemunsoed.auth
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.example.bemunsoed.MainActivity
+import com.example.bemunsoed.R
 import com.example.bemunsoed.databinding.ActivityLoginBinding
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.coroutines.launch
+import android.util.Log
+import android.content.DialogInterface
 
 class LoginActivity : AppCompatActivity() {
 
@@ -85,20 +90,109 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun showForgotPasswordDialog() {
-        val email = binding.etEmail.text.toString().trim()
+        // Get current email from field or empty
+        val currentEmail = binding.etEmail.text.toString().trim()
+
+        // Create custom dialog with EditText
+        val dialogView = layoutInflater.inflate(R.layout.dialog_forgot_password, null)
+        val emailEditText = dialogView.findViewById<EditText>(R.id.etEmailReset)
+        emailEditText.setText(currentEmail)
+
+        MaterialAlertDialogBuilder(this)
+            .setTitle("Lupa Password")
+            .setMessage("Masukkan email yang terdaftar. Kami akan mengirimkan link untuk reset password ke email Anda.")
+            .setView(dialogView)
+            .setPositiveButton("Kirim") { dialog: DialogInterface, which: Int ->
+                val email = emailEditText.text.toString().trim()
+                sendPasswordResetEmail(email)
+            }
+            .setNegativeButton("Batal", null)
+            .show()
+    }
+
+    private fun sendPasswordResetEmail(email: String) {
+        // Validate email
         if (email.isEmpty()) {
-            Toast.makeText(this, "Masukkan email terlebih dahulu", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Email tidak boleh kosong", Toast.LENGTH_SHORT).show()
             return
         }
 
+        if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            Toast.makeText(this, "Format email tidak valid", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        // Show loading
+        setLoading(true)
+
         lifecycleScope.launch {
-            when (val result = authManager.resetPassword(email)) {
-                is AuthenticationResult.Success -> {
-                    Toast.makeText(this@LoginActivity, "Email reset password telah dikirim", Toast.LENGTH_LONG).show()
+            try {
+                Log.d("LoginActivity", "Sending password reset email to: $email")
+
+                when (val result = authManager.resetPassword(email)) {
+                    is AuthenticationResult.Success -> {
+                        setLoading(false)
+                        Log.d("LoginActivity", "Password reset email sent successfully")
+
+                        // Show success dialog with instructions
+                        MaterialAlertDialogBuilder(this@LoginActivity)
+                            .setTitle("Email Terkirim!")
+                            .setMessage(
+                                "Link reset password telah dikirim ke:\n\n$email\n\n" +
+                                "Silakan cek inbox atau folder spam email Anda. " +
+                                "Link akan kedaluwarsa dalam 1 jam.\n\n" +
+                                "Jika tidak menerima email setelah beberapa menit, pastikan:\n" +
+                                "• Email yang dimasukkan sudah benar\n" +
+                                "• Akun dengan email tersebut sudah terdaftar\n" +
+                                "• Cek folder spam/junk"
+                            )
+                            .setPositiveButton("OK") { dialog: DialogInterface, _ ->
+                                dialog.dismiss()
+                            }
+                            .setNeutralButton("Kirim Ulang") { _, _ ->
+                                sendPasswordResetEmail(email)
+                            }
+                            .show()
+                    }
+                    is AuthenticationResult.Error -> {
+                        setLoading(false)
+                        Log.e("LoginActivity", "Failed to send reset email: ${result.message}")
+
+                        // Show error with helpful message
+                        val errorMessage = when {
+                            result.message.contains("no user", ignoreCase = true) ||
+                            result.message.contains("not found", ignoreCase = true) -> {
+                                "Email tidak terdaftar. Pastikan email yang Anda masukkan sudah terdaftar di aplikasi."
+                            }
+                            result.message.contains("invalid email", ignoreCase = true) -> {
+                                "Format email tidak valid. Periksa kembali email Anda."
+                            }
+                            result.message.contains("network", ignoreCase = true) -> {
+                                "Tidak ada koneksi internet. Periksa koneksi Anda dan coba lagi."
+                            }
+                            else -> {
+                                "Gagal mengirim email reset password: ${result.message}\n\nPastikan email sudah terdaftar dan koneksi internet stabil."
+                            }
+                        }
+
+                        MaterialAlertDialogBuilder(this@LoginActivity)
+                            .setTitle("Gagal Mengirim Email")
+                            .setMessage(errorMessage)
+                            .setPositiveButton("OK", null)
+                            .setNeutralButton("Coba Lagi") { _, _ ->
+                                showForgotPasswordDialog()
+                            }
+                            .show()
+                    }
                 }
-                is AuthenticationResult.Error -> {
-                    Toast.makeText(this@LoginActivity, result.message, Toast.LENGTH_LONG).show()
-                }
+            } catch (e: Exception) {
+                setLoading(false)
+                Log.e("LoginActivity", "Exception sending reset email", e)
+                Toast.makeText(
+                    this@LoginActivity,
+                    "Terjadi kesalahan: ${e.message}",
+                    Toast.LENGTH_LONG
+                ).show()
             }
         }
     }
@@ -107,6 +201,9 @@ class LoginActivity : AppCompatActivity() {
         binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
         binding.btnLogin.isEnabled = !isLoading
         binding.tvRegister.isEnabled = !isLoading
+        binding.tvForgotPassword.isEnabled = !isLoading
+        binding.etEmail.isEnabled = !isLoading
+        binding.etPassword.isEnabled = !isLoading
     }
 
     private fun navigateToMain() {

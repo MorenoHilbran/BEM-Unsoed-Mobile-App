@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Notification colors -->
+    <color name="notification_badge_red">#FF0000</color>
+    <color name="notification_unread_indicator">#FF5252</color>
+</resources>
+

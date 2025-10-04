@@ -3,52 +3,66 @@ package com.example.bemunsoed.ui.notifications.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.bemunsoed.R
 import com.example.bemunsoed.ui.notifications.model.UserPost
+import java.text.SimpleDateFormat
+import java.util.*
 
-class UserPostAdapter(private val postsList: List<UserPost>) :
-    RecyclerView.Adapter<UserPostAdapter.UserPostViewHolder>() {
+class UserPostAdapter(
+    private val onPostClick: (UserPost) -> Unit
+) : RecyclerView.Adapter<UserPostAdapter.UserPostViewHolder>() {
 
-    class UserPostViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val ivUserAvatar: ImageView = itemView.findViewById(R.id.iv_post_user_avatar)
-        val tvUserName: TextView = itemView.findViewById(R.id.tv_post_user_name)
-        val tvPostTime: TextView = itemView.findViewById(R.id.tv_post_time)
-        val tvPostContent: TextView = itemView.findViewById(R.id.tv_post_content)
-        val llLikeButton: LinearLayout = itemView.findViewById(R.id.ll_like_button)
-        val tvLikeCount: TextView = itemView.findViewById(R.id.tv_like_count)
-        val llCommentButton: LinearLayout = itemView.findViewById(R.id.ll_comment_button)
-        val tvCommentCount: TextView = itemView.findViewById(R.id.tv_comment_count)
+    private var posts = listOf<UserPost>()
+
+    fun updatePosts(newPosts: List<UserPost>) {
+        posts = newPosts
+        notifyDataSetChanged()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UserPostViewHolder {
         val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.item_user_post_card, parent, false)
-        return UserPostViewHolder(view)
+            .inflate(R.layout.item_user_post, parent, false)
+        return UserPostViewHolder(view, onPostClick)
     }
 
     override fun onBindViewHolder(holder: UserPostViewHolder, position: Int) {
-        val post = postsList[position]
-
-        holder.ivUserAvatar.setImageResource(post.userAvatar)
-        holder.tvUserName.text = post.userName
-        holder.tvPostTime.text = post.timeAgo
-        holder.tvPostContent.text = post.content
-        holder.tvLikeCount.text = post.likeCount.toString()
-        holder.tvCommentCount.text = post.commentCount.toString()
-
-        // Set click listeners for like and comment buttons
-        holder.llLikeButton.setOnClickListener {
-            // TODO: Handle like action
-        }
-
-        holder.llCommentButton.setOnClickListener {
-            // TODO: Handle comment action
-        }
+        holder.bind(posts[position])
     }
 
-    override fun getItemCount(): Int = postsList.size
+    override fun getItemCount(): Int = posts.size
+
+    class UserPostViewHolder(
+        itemView: View,
+        private val onPostClick: (UserPost) -> Unit
+    ) : RecyclerView.ViewHolder(itemView) {
+
+        private val tvContent: TextView = itemView.findViewById(R.id.tv_content)
+        private val tvTimestamp: TextView = itemView.findViewById(R.id.tv_timestamp)
+        private val tvLikeCount: TextView = itemView.findViewById(R.id.tv_like_count)
+        private val tvCommentCount: TextView = itemView.findViewById(R.id.tv_comment_count)
+
+        fun bind(post: UserPost) {
+            tvContent.text = post.content
+            tvTimestamp.text = formatTimestamp(post.timestamp)
+            tvLikeCount.text = "${post.likeCount} likes"
+            tvCommentCount.text = "${post.commentCount} comments"
+
+            itemView.setOnClickListener {
+                onPostClick(post)
+            }
+        }
+
+        private fun formatTimestamp(timestamp: String): String {
+            return try {
+                val inputFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
+                val outputFormat = SimpleDateFormat("dd MMM, HH:mm", Locale.getDefault())
+                val date = inputFormat.parse(timestamp)
+                date?.let { outputFormat.format(it) } ?: timestamp
+            } catch (e: Exception) {
+                timestamp
+            }
+        }
+    }
 }

@@ -42,27 +42,31 @@ class AuthManager {
         email: String,
         password: String,
         fullName: String,
-        nim: String,
-        major: String
+        fakultas: String,
+        jurusan: String,
+        angkatan: String
     ): AuthenticationResult {
         return try {
             val result: AuthResult = auth.createUserWithEmailAndPassword(email, password).await()
             val user = result.user
 
             if (user != null) {
-                // Save additional user data to Firestore tanpa role
+                // Save user data with correct field names matching User model
                 val userData = hashMapOf(
-                    "uid" to user.uid,
+                    "id" to user.uid,
+                    "name" to fullName,
                     "email" to email,
-                    "fullName" to fullName,
-                    "nim" to nim,
-                    "major" to major,
-                    "profilePictureUrl" to "",
+                    "fakultas" to fakultas,
+                    "jurusan" to jurusan,
+                    "angkatan" to angkatan,
+                    "avatarUrl" to "",
+                    "bio" to "Mahasiswa Universitas Jenderal Soedirman",
                     "createdAt" to System.currentTimeMillis()
                 )
 
                 try {
                     firestore.collection("users").document(user.uid).set(userData).await()
+                    println("User profile saved to Firestore: ${user.uid}")
                 } catch (e: Exception) {
                     // Firestore error, but auth success - continue anyway
                     println("Firestore error: ${e.message}")
@@ -84,6 +88,22 @@ class AuthManager {
             val user = result.user
 
             if (user != null) {
+                // Check if user profile exists in Firestore
+                try {
+                    val userDoc = firestore.collection("users").document(user.uid).get().await()
+                    if (!userDoc.exists()) {
+                        // User dihapus dari Firestore - logout dan minta register ulang
+                        auth.signOut()
+                        return AuthenticationResult.Error(
+                            "Akun Anda telah dihapus dari sistem. Silakan daftar ulang untuk menggunakan aplikasi."
+                        )
+                    }
+                    // User profile exists - login successful
+                } catch (e: Exception) {
+                    println("Error checking user profile: ${e.message}")
+                    // If error checking Firestore, still allow login but log the error
+                }
+
                 AuthenticationResult.Success(user)
             } else {
                 AuthenticationResult.Error("Login failed")
