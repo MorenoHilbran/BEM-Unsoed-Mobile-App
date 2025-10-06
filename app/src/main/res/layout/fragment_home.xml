@@ -18,12 +18,19 @@
             android:orientation="vertical">
 
             <!-- Banner Slider Section -->
-            <androidx.viewpager2.widget.ViewPager2
-                android:id="@+id/banner_slider"
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
-                android:layout_height="169dp"
+                android:layout_height="wrap_content"
                 android:layout_margin="16dp"
-                android:background="@drawable/green_background" />
+                app:cardCornerRadius="16dp"
+                app:cardElevation="0dp">
+
+                <androidx.viewpager2.widget.ViewPager2
+                    android:id="@+id/banner_slider"
+                    android:layout_width="match_parent"
+                    android:layout_height="169dp" />
+
+            </androidx.cardview.widget.CardView>
 
             <!-- Dots Indicator for Banner -->
             <LinearLayout

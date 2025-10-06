@@ -149,7 +149,7 @@ class HomeFragment : Fragment() {
 
     private fun setupMenuClickListeners() {
         menuInfoKos.setOnClickListener {
-            openExternalLink("https://bem-unsoed.com/info-kos")
+            openExternalLink("https://apps.bem-unsoed.com/info-kos")
         }
 
         menuKuliner.setOnClickListener {
@@ -157,15 +157,15 @@ class HomeFragment : Fragment() {
         }
 
         menuPodcast.setOnClickListener {
-            openExternalLink("https://bem-unsoed.com/podcast")
+            openExternalLink("https://apps.bem-unsoed.com/soedtify")
         }
 
         menuEmagz.setOnClickListener {
-            openExternalLink("https://bem-unsoed.com/e-magazine")
+            openExternalLink("https://apps.bem-unsoed.com/e-magz")
         }
 
         menuKomik.setOnClickListener {
-            openExternalLink("https://bem-unsoed.com/komik")
+            openExternalLink("https://apps.bem-unsoed.com/komik")
         }
     }
 

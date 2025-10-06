@@ -17,9 +17,19 @@
         android:label="@string/title_dashboard"
         tools:layout="@layout/fragment_dashboard">
 
+        <!-- Action yang sudah ada (ke detail) -->
         <action
-            android:id="@+id/action_dashboard_to_postDetail"
+            android:id="@+id/action_navigation_dashboard_to_postDetailFragment"
             app:destination="@id/postDetailFragment" />
+
+        <!-- ========================================================= -->
+        <!-- DAN TAMBAHKAN ACTION INI DI DALAM DASHBOARD -->
+        <!-- ID ini harus sama persis dengan yang dipanggil di Kotlin -->
+        <action
+            android:id="@+id/action_navigation_dashboard_to_createPostFragment"
+            app:destination="@id/createPostFragment" />
+        <!-- ========================================================= -->
+
     </fragment>
 
     <fragment
@@ -55,6 +65,7 @@
             app:destination="@id/postDetailFragment" />
     </fragment>
 
+    <!-- Fragment post detail duplikat, bisa dihapus jika tidak dipakai -->
     <fragment
         android:id="@+id/navigation_post_detail"
         android:name="com.example.bemunsoed.ui.dashboard.PostDetailFragment"
@@ -65,4 +76,11 @@
             android:name="postId"
             app:argType="string" />
     </fragment>
+
+    <fragment
+        android:id="@+id/createPostFragment"
+        android:name="com.example.bemunsoed.ui.createpost.CreatePostFragment"
+        android:label="CreatePostFragment"
+        tools:layout="@layout/fragment_create_post" />
+
 </navigation>

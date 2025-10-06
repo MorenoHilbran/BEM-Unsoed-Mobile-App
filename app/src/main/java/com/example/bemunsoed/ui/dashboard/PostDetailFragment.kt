@@ -128,7 +128,7 @@ class PostDetailFragment : Fragment() {
 
                 // Comment count
                 binding.tvCommentCount.text = when {
-                    post.commentCount == 0 -> "No comments yet"
+                    post.commentCount == 0 -> "Belum ada komen bro"
                     post.commentCount == 1 -> "1 comment"
                     else -> "${post.commentCount} comments"
                 }
@@ -233,9 +233,9 @@ class PostDetailFragment : Fragment() {
     private fun handleDeletePost() {
         // Show confirmation dialog
         MaterialAlertDialogBuilder(requireContext())
-            .setTitle("Delete Post")
-            .setMessage("Are you sure you want to delete this post? Comments will still be visible in recent activity.")
-            .setPositiveButton("Delete") { _, _ ->
+            .setTitle("Hapus Opini")
+            .setMessage("Yakin nih? kalau diapus opinilu gaakan tampil lagi.")
+            .setPositiveButton("Hapus") { _, _ ->
                 viewModel.deletePost(postId)
             }
             .setNegativeButton("Cancel", null)
@@ -245,12 +245,12 @@ class PostDetailFragment : Fragment() {
     private fun handleDeleteComment(comment: com.example.bemunsoed.data.model.Comment) {
         // Show confirmation dialog
         androidx.appcompat.app.AlertDialog.Builder(requireContext())
-            .setTitle("Delete Comment")
-            .setMessage("Are you sure you want to delete this comment?")
-            .setPositiveButton("Delete") { _, _ ->
+            .setTitle("Hapus Komen")
+            .setMessage("Yakin mau apus komen lu?")
+            .setPositiveButton("Hapus") { _, _ ->
                 viewModel.deleteComment(comment.id, postId)
             }
-            .setNegativeButton("Cancel", null)
+            .setNegativeButton("Gajadi", null)
             .show()
     }
 

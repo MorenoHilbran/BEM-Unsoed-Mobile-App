@@ -4,19 +4,18 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.EditText
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.bemunsoed.R
+import com.example.bemunsoed.data.model.Post
 import com.example.bemunsoed.databinding.FragmentDashboardBinding
 import com.example.bemunsoed.ui.adapter.PostAdapter
-import com.example.bemunsoed.data.model.Post
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import android.util.Log
 import android.widget.Toast
-import com.example.bemunsoed.R
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 class DashboardFragment : Fragment() {
 
@@ -31,12 +30,12 @@ class DashboardFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        dashboardViewModel = ViewModelProvider(this)[DashboardViewModel::class.java]
+        dashboardViewModel = ViewModelProvider(requireActivity())[DashboardViewModel::class.java] // Gunakan requireActivity()
         _binding = FragmentDashboardBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
         setupRecyclerView()
-        setupFAB()
+        setupFAB() // Diubah
         setupSwipeRefresh()
         observeViewModel()
 
@@ -66,9 +65,11 @@ class DashboardFragment : Fragment() {
         }
     }
 
+    // --- PERUBAHAN DI SINI ---
     private fun setupFAB() {
         binding.fabCreatePost.setOnClickListener {
-            showCreatePostDialog()
+            // Navigasi ke halaman CreatePostFragment, pastikan ID action sudah benar
+            findNavController().navigate(R.id.action_navigation_dashboard_to_createPostFragment)
         }
     }
 
@@ -104,16 +105,14 @@ class DashboardFragment : Fragment() {
             }
         }
 
-        // Observe create post result
+        // Observer ini tetap di sini untuk me-refresh data setelah post baru dibuat dari fragment lain
         dashboardViewModel.createPostResult.observe(viewLifecycleOwner) { result ->
             result?.let {
                 if (it.isSuccess) {
-                    Toast.makeText(context, "Post created successfully!", Toast.LENGTH_SHORT).show()
-                    dashboardViewModel.refreshPosts() // Refresh to show new post
-                } else {
-                    val error = it.exceptionOrNull()?.message ?: "Failed to create post"
-                    Toast.makeText(context, error, Toast.LENGTH_SHORT).show()
+                    // Refresh sudah otomatis terpanggil saat onResume, jadi toast tidak perlu lagi di sini
+                    // agar tidak muncul dua kali.
                 }
+                // Hapus result agar tidak trigger lagi saat kembali ke fragment ini
                 dashboardViewModel.clearCreatePostResult()
             }
         }
@@ -158,53 +157,34 @@ class DashboardFragment : Fragment() {
     }
 
     private fun handleLikeClick(post: Post) {
-        // Toggle like
         dashboardViewModel.toggleLike(post.id)
     }
 
     private fun handleItemClick(post: Post) {
-        // Navigate to post detail with comments
         Log.d("DashboardFragment", "Post clicked: ${post.id}")
         val bundle = Bundle().apply {
             putString("postId", post.id)
         }
         try {
-            findNavController().navigate(R.id.postDetailFragment, bundle)
+            // Pastikan ID action ke post detail sudah benar
+            findNavController().navigate(R.id.action_navigation_dashboard_to_postDetailFragment, bundle)
         } catch (e: Exception) {
             Log.e("DashboardFragment", "Navigation error", e)
             Toast.makeText(context, "Opening post details...", Toast.LENGTH_SHORT).show()
         }
     }
 
-    private fun showCreatePostDialog() {
-        val dialogView = layoutInflater.inflate(R.layout.dialog_create_post, null)
-        val etPostContent = dialogView.findViewById<EditText>(R.id.et_post_content)
-
-        MaterialAlertDialogBuilder(requireContext())
-            .setTitle("Create New Post")
-            .setView(dialogView)
-            .setPositiveButton("Post") { _, _ ->
-                val content = etPostContent.text.toString().trim()
-                if (content.isNotEmpty()) {
-                    // Use the new createPost function that automatically includes profile photo ID
-                    dashboardViewModel.createPost(content)
-                } else {
-                    Toast.makeText(context, "Please enter some content", Toast.LENGTH_SHORT).show()
-                }
-            }
-            .setNegativeButton("Cancel", null)
-            .show()
-    }
+    // --- METHOD INI DIHAPUS ---
+    // private fun showCreatePostDialog() { ... }
 
     private fun handleDeleteClick(post: Post) {
-        // Show confirmation dialog
         MaterialAlertDialogBuilder(requireContext())
             .setTitle("Delete Post")
             .setMessage("Are you sure you want to delete this post? This action cannot be undone.")
             .setPositiveButton("Delete") { _, _ ->
                 dashboardViewModel.deletePost(post.id)
             }
-            .setNegativeButton("Cancel", null)
+            .setNegativeButton("Batal", null)
             .show()
     }
 
@@ -215,7 +195,6 @@ class DashboardFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        // Refresh posts when fragment becomes visible to ensure we show latest data
         Log.d("DashboardFragment", "Fragment resumed, refreshing posts...")
         dashboardViewModel.refreshPosts()
     }
