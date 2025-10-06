@@ -8,6 +8,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.bemunsoed.R
 import com.example.bemunsoed.data.model.Merch
 
@@ -45,8 +46,10 @@ class MerchAdapter(
                 merch.description
             }
 
-            // For now, use test1 image - later can implement image loading with Glide/Picasso
-            ivMerchImage.setImageResource(R.drawable.merch1)
+            // Load image from imageUrl using Glide
+            Glide.with(itemView.context)
+                .load(merch.imageUrl)
+                .into(ivMerchImage)
 
             itemView.setOnClickListener {
                 onItemClick(merch)

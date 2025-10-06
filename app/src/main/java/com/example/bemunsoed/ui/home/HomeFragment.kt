@@ -41,6 +41,8 @@ class HomeFragment : Fragment() {
     private lateinit var merchAdapter: MerchAdapter
     private lateinit var bannerAdapter: BannerAdapter
 
+    private var currentBannerPosition: Int = 0
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -88,6 +90,14 @@ class HomeFragment : Fragment() {
         Log.d("HomeFragment", "Setting up banner slider")
         bannerAdapter = BannerAdapter()
         bannerSlider.adapter = bannerAdapter
+        // Tambahkan listener untuk update dots saat slide
+        bannerSlider.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+            override fun onPageSelected(position: Int) {
+                super.onPageSelected(position)
+                currentBannerPosition = position
+                updateDotsIndicatorActive(position)
+            }
+        })
     }
 
     private fun setupDotsIndicator(count: Int) {
@@ -106,6 +116,14 @@ class HomeFragment : Fragment() {
             val params = LinearLayout.LayoutParams(24, 24)
             params.setMargins(8, 0, 8, 0)
             dotsIndicator.addView(dot, params)
+        }
+    }
+
+    private fun updateDotsIndicatorActive(position: Int) {
+        val count = dotsIndicator.childCount
+        for (i in 0 until count) {
+            val dot = dotsIndicator.getChildAt(i) as? ImageView
+            dot?.setImageResource(if (i == position) R.drawable.ic_circle_filled else R.drawable.ic_circle_outline)
         }
     }
 

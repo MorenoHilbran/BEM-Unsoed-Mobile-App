@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.bemunsoed.data.model.Banner
 import com.example.bemunsoed.data.model.Event
 import com.example.bemunsoed.data.model.Merch
 import com.example.bemunsoed.data.repository.BemRepository
@@ -20,8 +21,8 @@ class HomeViewModel : ViewModel() {
     private val _merch = MutableLiveData<List<Merch>>()
     val merch: LiveData<List<Merch>> = _merch
 
-    private val _banners = MutableLiveData<List<Map<String, Any>>>()
-    val banners: LiveData<List<Map<String, Any>>> = _banners
+    private val _banners = MutableLiveData<List<Banner>>()
+    val banners: LiveData<List<Banner>> = _banners
 
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> = _isLoading
@@ -44,7 +45,7 @@ class HomeViewModel : ViewModel() {
                 Log.d("HomeViewModel", "Loading banners...")
                 repository.getBanners().let { result ->
                     result.onSuccess { bannerList ->
-                        Log.d("HomeViewModel", "Successfully loaded ${bannerList.size} banners")
+                        Log.d("HomeViewModel", "Successfully loaded "+bannerList.size+" banners")
                         _banners.value = bannerList
                         if (bannerList.isEmpty()) {
                             Log.w("HomeViewModel", "No banners found in Firebase")

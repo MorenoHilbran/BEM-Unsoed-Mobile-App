@@ -392,6 +392,7 @@ class DashboardViewModel : ViewModel() {
                     actorId = actorId,
                     actorName = userProfile?.name ?: "Someone",
                     actorAvatar = userProfile?.avatarUrl ?: "",
+                    actorProfilePhotoId = userProfile?.profilePhotoId ?: "default",
                     recipientId = post.authorId,
                     createdAt = System.currentTimeMillis()
                 )
@@ -413,6 +414,7 @@ class DashboardViewModel : ViewModel() {
                     actorId = actorId,
                     actorName = userProfile?.name ?: "Someone",
                     actorAvatar = userProfile?.avatarUrl ?: "",
+                    actorProfilePhotoId = userProfile?.profilePhotoId ?: "default",
                     commentContent = commentContent.take(200),
                     recipientId = post.authorId,
                     createdAt = System.currentTimeMillis()

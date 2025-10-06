@@ -1,5 +1,6 @@
 package com.example.bemunsoed.data.repository
 
+import com.example.bemunsoed.data.model.Banner
 import com.example.bemunsoed.data.model.Event
 import com.example.bemunsoed.data.model.Merch
 import kotlinx.coroutines.Dispatchers
@@ -20,7 +21,7 @@ class BemRepository {
         return@withContext firebaseRepository.getMerch()
     }
 
-    suspend fun getBanners(): Result<List<Map<String, Any>>> = withContext(Dispatchers.IO) {
+    suspend fun getBanners(): Result<List<Banner>> = withContext(Dispatchers.IO) {
         return@withContext firebaseRepository.getBanners()
     }
 }

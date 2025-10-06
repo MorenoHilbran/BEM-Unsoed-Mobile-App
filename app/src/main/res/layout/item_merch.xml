@@ -2,55 +2,61 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="160dp"
-    android:layout_height="wrap_content"
+    android:layout_height="260dp"
     android:layout_margin="8dp"
     app:cardCornerRadius="12dp"
     app:cardElevation="4dp">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="vertical"
-        android:padding="12dp">
+        android:padding="12dp"
+        android:gravity="center_horizontal">
 
         <ImageView
             android:id="@+id/iv_merch_image"
             android:layout_width="match_parent"
-            android:layout_height="120dp"
+            android:layout_height="110dp"
             android:scaleType="centerCrop"
             android:background="@color/background_color" />
 
         <TextView
             android:id="@+id/tv_merch_name"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="48dp"
             android:layout_marginTop="8dp"
+            android:layout_marginBottom="4dp"
             android:text="Merch Name"
             android:textSize="14sp"
             android:textStyle="bold"
-            android:maxLines="2"
-            android:ellipsize="end" />
+            android:maxLines="4"
+            android:ellipsize="end"
+            android:gravity="start|center_vertical" />
 
         <TextView
             android:id="@+id/tv_merch_price"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
+            android:layout_height="20dp"
+            android:layout_marginTop="0dp"
+            android:layout_marginBottom="2dp"
             android:text="Rp 50.000"
             android:textSize="12sp"
             android:textColor="@color/primary_color"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:gravity="start|center_vertical" />
 
         <TextView
             android:id="@+id/tv_merch_description"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
+            android:layout_height="56dp"
+            android:layout_marginTop="0dp"
             android:text="Description"
             android:textSize="10sp"
             android:textColor="@color/text_secondary"
-            android:maxLines="2"
-            android:ellipsize="end" />
+            android:maxLines="6"
+            android:ellipsize="end"
+            android:gravity="start|center_vertical" />
 
     </LinearLayout>
 

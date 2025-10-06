@@ -11,6 +11,7 @@ import com.example.bemunsoed.data.model.PostComment
 import com.example.bemunsoed.data.model.Comment
 import com.example.bemunsoed.data.model.Like
 import com.example.bemunsoed.data.model.User
+import com.example.bemunsoed.data.model.Banner
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -137,7 +138,7 @@ class FirebaseRepository {
     }
 
     // Get banners - public data
-    suspend fun getBanners(): Result<List<Map<String, Any>>> = withContext(Dispatchers.IO) {
+    suspend fun getBanners(): Result<List<Banner>> = withContext(Dispatchers.IO) {
         return@withContext try {
             Log.d("FirebaseRepository", "Fetching banners...")
             val snapshot = firestore.collection("banners")
@@ -145,17 +146,16 @@ class FirebaseRepository {
                 .get()
                 .await()
 
-            val banners = snapshot.documents.map { doc ->
-                mapOf(
-                    "id" to doc.id,
-                    "title" to (doc.getString("title") ?: ""),
-                    "imageUrl" to (doc.getString("imageUrl") ?: ""),
-                    "linkUrl" to (doc.getString("linkUrl") ?: ""),
-                    "order" to (doc.getLong("order") ?: 0)
-                )
-            }.sortedBy { it["order"] as Long }
+            val banners = snapshot.documents.mapNotNull { doc ->
+                try {
+                    doc.toObject(Banner::class.java)?.copy(id = doc.id)
+                } catch (e: Exception) {
+                    Log.e("FirebaseRepository", "Error parsing banner document: "+doc.id, e)
+                    null
+                }
+            }.sortedBy { it.order }
 
-            Log.d("FirebaseRepository", "Found ${banners.size} banners")
+            Log.d("FirebaseRepository", "Found "+banners.size+" banners")
             Result.success(banners)
         } catch (e: Exception) {
             Log.e("FirebaseRepository", "Error fetching banners", e)

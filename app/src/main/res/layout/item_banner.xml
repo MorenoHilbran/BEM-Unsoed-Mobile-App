@@ -6,11 +6,32 @@
     app:cardCornerRadius="12dp"
     app:cardElevation="4dp">
 
-    <ImageView
-        android:id="@+id/bannerImage"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scaleType="centerCrop"
-        android:background="@color/background_color" />
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/bannerImage"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:background="@color/background_color" />
+
+        <TextView
+            android:id="@+id/bannerTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|start"
+            android:background="#80000000"
+            android:textColor="#FFFFFF"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:padding="12dp"
+            android:maxLines="2"
+            android:ellipsize="end"
+            android:gravity="start|center_vertical"
+            android:visibility="visible" />
+
+    </FrameLayout>
 
 </androidx.cardview.widget.CardView>

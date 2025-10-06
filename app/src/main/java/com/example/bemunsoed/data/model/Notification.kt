@@ -10,6 +10,7 @@ data class Notification(
     val actorId: String = "", // User yang melakukan action (like/comment)
     val actorName: String = "",
     val actorAvatar: String = "",
+    val actorProfilePhotoId: String = "", // ID foto profil user seperti di Post
     val commentContent: String = "", // Jika type = COMMENT
     val recipientId: String = "", // Owner post yang menerima notifikasi
     val createdAt: Long = 0L,

@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.bemunsoed.R
 import com.example.bemunsoed.data.model.Notification
 import com.example.bemunsoed.data.model.NotificationType
+import com.example.bemunsoed.util.ProfileOptionsManager
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -36,11 +37,11 @@ class NotificationAdapter(
         private val tvCommentContent: TextView = itemView.findViewById(R.id.tv_comment_content)
         private val tvTime: TextView = itemView.findViewById(R.id.tv_time)
         private val ivTypeIcon: ImageView = itemView.findViewById(R.id.iv_type_icon)
+        private val ivAvatar: ImageView = itemView.findViewById(R.id.iv_avatar)
 
         fun bind(notification: Notification) {
             // Hide unread indicator - removed the red dot but notification feature still works
             indicatorUnread.visibility = View.GONE
-            // indicatorUnread.visibility = if (notification.isRead) View.INVISIBLE else View.VISIBLE
 
             // Set notification text based on type
             val notificationText = when (notification.type) {
@@ -95,6 +96,14 @@ class NotificationAdapter(
                     ivTypeIcon.clearColorFilter()
                 }
             }
+
+            // Set user avatar using ProfileOptionsManager (same as PostAdapter in forum)
+            val profilePhotoRes = if (!notification.actorProfilePhotoId.isNullOrEmpty()) {
+                ProfileOptionsManager.getProfilePhotoDrawable(notification.actorProfilePhotoId)
+            } else {
+                ProfileOptionsManager.getProfilePhotoDrawable("default")
+            }
+            ivAvatar.setImageResource(profilePhotoRes)
 
             // Format timestamp
             tvTime.text = formatTime(notification.createdAt)
