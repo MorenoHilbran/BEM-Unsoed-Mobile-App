@@ -57,7 +57,7 @@
     <fragment
         android:id="@+id/notificationListFragment"
         android:name="com.example.bemunsoed.ui.notifications.NotificationListFragment"
-        android:label="Notifications"
+        android:label="Notifikasi"
         tools:layout="@layout/fragment_notification_list">
 
         <action

@@ -13,8 +13,8 @@
         android:layout_height="?attr/actionBarSize"
         android:background="@android:color/white"
         android:elevation="4dp"
-        app:navigationIcon="@drawable/ic_arrow_back"
-        app:title="Notifications"
+        app:navigationIcon="@drawable/ic_arrow_back_black"
+        app:title="Notifikasi"
         app:titleTextColor="@android:color/black"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -74,7 +74,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="No notifications yet"
+            android:text="Belum ada Notifikasi"
             android:textSize="16sp"
             android:textColor="@android:color/darker_gray"
             android:layout_marginTop="16dp" />
@@ -82,7 +82,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="You'll see notifications when someone\nlikes or comments on your posts"
+            android:text="notif bakal muncul kalau ada yang like/komen postinganlu!"
             android:textSize="14sp"
             android:textColor="@android:color/darker_gray"
             android:gravity="center"
