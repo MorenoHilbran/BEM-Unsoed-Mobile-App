@@ -30,10 +30,10 @@
 
     <integer-array name="background_drawables">
         <item>@drawable/default_profile_bg</item>
-        <item>@drawable/profile_background</item>
-        <item>@drawable/banner_background</item>
-        <item>@drawable/button_primary</item>
-        <item>@drawable/badge_background</item>
+        <item>@drawable/pink_background</item>
+        <item>@drawable/green_background</item>
+        <item>@drawable/orange_background</item>
+        <item>@drawable/purple_background</item>
     </integer-array>
 </resources>
 

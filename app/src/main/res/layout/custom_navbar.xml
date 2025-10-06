@@ -36,15 +36,15 @@
     <!-- Logout Icon (paling kanan) -->
     <ImageView
         android:id="@+id/logout_icon"
-        android:layout_width="32dp"
-        android:layout_height="32dp"
-        android:src="@android:drawable/ic_menu_revert"
-        android:contentDescription="Logout"
+        android:layout_width="40dp"
+        android:layout_height="41dp"
         android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="Logout"
         android:padding="6dp"
+        android:src="@android:drawable/ic_menu_revert"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        app:layout_constraintTop_toTopOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

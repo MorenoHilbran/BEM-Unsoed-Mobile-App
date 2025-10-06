@@ -82,4 +82,5 @@
     <string name="already_have_account">Sudah punya akun?</string>
     <string name="login_link">Masuk</string>
     <string name="back_button">Kembali</string>
+    <string name="banner_image">Gambar Banner</string>
 </resources>
