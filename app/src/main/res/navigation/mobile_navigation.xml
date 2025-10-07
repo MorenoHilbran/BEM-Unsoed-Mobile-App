@@ -82,5 +82,18 @@
         android:name="com.example.bemunsoed.ui.createpost.CreatePostFragment"
         android:label="CreatePostFragment"
         tools:layout="@layout/fragment_create_post" />
+    <fragment
+        android:id="@+id/webViewFragment"
+        android:name="com.example.bemunsoed.ui.webview.WebViewFragment"
+        android:label="WebView"
+        tools:layout="@layout/fragment_webview">
+        <argument
+            android:name="url"
+            app:argType="string" />
+        <argument
+            android:name="title"
+            app:argType="string" />
+    </fragment>
+
 
 </navigation>

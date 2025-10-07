@@ -71,12 +71,12 @@ class ProfileViewModel : ViewModel() {
         if (currentUser != null) {
             val defaultUser = User(
                 id = currentUser.uid,
-                name = "BEM Unsoed User",
+                name = "Jend-Z User",
                 email = currentUser.email ?: "",
                 fakultas = "",
                 jurusan = "",
                 angkatan = "",
-                bio = "Anggota BEM Universitas Jenderal Soedirman"
+                bio = "Gensoed Kece"
             )
             _currentUser.value = defaultUser
             // Save default profile to Firebase

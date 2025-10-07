@@ -1,7 +1,5 @@
 package com.example.bemunsoed.ui.home
 
-import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -9,9 +7,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.TextView
 import android.widget.Toast
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -19,11 +20,17 @@ import androidx.viewpager2.widget.ViewPager2
 import com.example.bemunsoed.R
 import com.example.bemunsoed.ui.adapter.BannerAdapter
 import com.example.bemunsoed.ui.adapter.MerchAdapter
+import com.example.bemunsoed.ui.notifications.ProfileViewModel
+import com.example.bemunsoed.ui.webview.WebViewFragment
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 class HomeFragment : Fragment() {
 
     private lateinit var homeViewModel: HomeViewModel
+
+    private lateinit var tvWelcome: TextView
+    private lateinit var profileViewModel: ProfileViewModel
+
 
     // Views for layout
     private lateinit var swipeRefresh: SwipeRefreshLayout
@@ -64,6 +71,17 @@ class HomeFragment : Fragment() {
         setupSwipeRefresh()
         setupMenuClickListeners()
         observeViewModel()
+        tvWelcome = view.findViewById(R.id.tv_welcome)
+
+// Ambil ViewModel profil
+        profileViewModel = ViewModelProvider(this)[ProfileViewModel::class.java]
+
+// Observasi data user untuk menampilkan nama
+        profileViewModel.currentUser.observe(viewLifecycleOwner) { user ->
+            val name = user.name ?: "Pengguna"
+            tvWelcome.text = "Selamat datang, $name!"
+        }
+
     }
 
     private fun initViews(view: View) {
@@ -74,7 +92,7 @@ class HomeFragment : Fragment() {
             dotsIndicator = view.findViewById(R.id.dots_indicator)
             rvMerch = view.findViewById(R.id.rv_merch)
 
-            // Menu items - with null checks
+            // Menu items
             menuInfoKos = view.findViewById(R.id.menu_info_kos)
             menuKuliner = view.findViewById(R.id.menu_kuliner)
             menuPodcast = view.findViewById(R.id.menu_podcast)
@@ -91,7 +109,8 @@ class HomeFragment : Fragment() {
         Log.d("HomeFragment", "Setting up banner slider")
         bannerAdapter = BannerAdapter()
         bannerSlider.adapter = bannerAdapter
-        // Tambahkan listener untuk update dots saat slide
+
+        // Update dots indicator saat slide
         bannerSlider.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)
@@ -113,7 +132,6 @@ class HomeFragment : Fragment() {
         for (i in 0 until count) {
             val dot = ImageView(context)
             dot.setImageResource(if (i == 0) R.drawable.ic_circle_filled else R.drawable.ic_circle_outline)
-
             val params = LinearLayout.LayoutParams(24, 24)
             params.setMargins(8, 0, 8, 0)
             dotsIndicator.addView(dot, params)
@@ -149,81 +167,61 @@ class HomeFragment : Fragment() {
     }
 
     private fun setupMenuClickListeners() {
-        // --- PERUBAHAN DI SINI ---
-        menuInfoKos.setOnClickListener {
-            showComingSoonDialog()
-        }
+        menuInfoKos.setOnClickListener { showComingSoonDialog() }
+        menuKuliner.setOnClickListener { showComingSoonDialog() }
 
-        menuKuliner.setOnClickListener {
-            showComingSoonDialog()
-        }
-        // -------------------------
-
+        // Menu dengan WebView
         menuPodcast.setOnClickListener {
-            openExternalLink("https://apps.bem-unsoed.com/soedtify")
+            openWebView("https://apps.bem-unsoed.com/soedtify", "Soedtify")
         }
 
         menuEmagz.setOnClickListener {
-            openExternalLink("https://apps.bem-unsoed.com/e-magz")
+            openWebView("https://apps.bem-unsoed.com/e-magz", "E-Magz")
         }
 
         menuKomik.setOnClickListener {
-            openExternalLink("https://apps.bem-unsoed.com/komik")
+            openWebView("https://apps.bem-unsoed.com/komik", "Komik BEM Unsoed")
         }
     }
 
-    // --- TAMBAHKAN FUNGSI BARU INI ---
+
+
     private fun showComingSoonDialog() {
         MaterialAlertDialogBuilder(requireContext())
             .setTitle("Coming Soon!")
             .setMessage("Fitur ini sedang dalam tahap pengembangan. Nantikan ya!")
-            .setPositiveButton("OK") { dialog, _ ->
-                dialog.dismiss()
-            }
+            .setPositiveButton("OK") { dialog, _ -> dialog.dismiss() }
             .show()
     }
-    // ---------------------------------
 
     private fun observeViewModel() {
         Log.d("HomeFragment", "Setting up ViewModel observers")
 
-        // Observe banners from Firebase
         homeViewModel.banners.observe(viewLifecycleOwner) { banners ->
             Log.d("HomeFragment", "Banners updated: ${banners.size} items")
             if (banners.isNotEmpty()) {
                 bannerAdapter.updateBanners(banners)
                 setupDotsIndicator(banners.size)
             } else {
-                Log.w("HomeFragment", "No banners received from Firebase")
                 setupDotsIndicator(0)
             }
         }
 
-        // Observe merchandise from Firebase
         homeViewModel.merch.observe(viewLifecycleOwner) { merchList ->
             Log.d("HomeFragment", "Merchandise updated: ${merchList.size} items")
-            if (merchList.isNotEmpty()) {
-                merchAdapter.submitList(merchList)
-            } else {
-                Log.w("HomeFragment", "No merchandise received from Firebase")
-                merchAdapter.submitList(emptyList())
-            }
+            merchAdapter.submitList(merchList)
         }
 
-        // Observe events from Firebase
         homeViewModel.events.observe(viewLifecycleOwner) { events ->
             Log.d("HomeFragment", "Events updated: ${events.size} items")
-            // Handle events display if needed in the future
         }
 
         homeViewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
-            Log.d("HomeFragment", "Loading state: $isLoading")
             swipeRefresh.isRefreshing = isLoading
         }
 
         homeViewModel.errorMessage.observe(viewLifecycleOwner) { error ->
             error?.let {
-                Log.e("HomeFragment", "Error message received: $it")
                 Toast.makeText(context, it, Toast.LENGTH_LONG).show()
                 homeViewModel.clearError()
             }
@@ -232,13 +230,19 @@ class HomeFragment : Fragment() {
 
     private fun openUrl(url: String) {
         if (url.isNotEmpty()) {
-            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
-            startActivity(intent)
+            val bundle = bundleOf(
+                "url" to url,
+                "title" to "Merchandise"
+            )
+            findNavController().navigate(R.id.webViewFragment, bundle)
         }
     }
-
-    private fun openExternalLink(url: String) {
-        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
-        startActivity(intent)
+    private fun openWebView(url: String, title: String) {
+        val bundle = bundleOf(
+            "url" to url,
+            "title" to title
+        )
+        findNavController().navigate(R.id.webViewFragment, bundle)
     }
+
 }
