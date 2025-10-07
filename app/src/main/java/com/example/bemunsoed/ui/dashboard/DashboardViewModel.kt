@@ -314,7 +314,7 @@ class DashboardViewModel : ViewModel() {
 
                 val result = repository.toggleCommentLike(commentId, postId)
                 result.fold(
-                    onSuccess = { newLikeStatus ->
+                    onSuccess = { _ ->
                         Log.d("DashboardViewModel", "Comment like toggled successfully")
                     },
                     onFailure = { exception ->

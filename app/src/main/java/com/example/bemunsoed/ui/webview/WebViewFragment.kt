@@ -11,6 +11,7 @@ import android.webkit.WebViewClient
 import android.widget.ProgressBar
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.example.bemunsoed.R
 import com.google.android.material.appbar.MaterialToolbar
 
@@ -49,7 +50,7 @@ class WebViewFragment : Fragment() {
             if (webView.canGoBack()) {
                 webView.goBack()
             } else {
-                requireActivity().onBackPressed()
+                findNavController().navigateUp()
             }
         }
 
@@ -76,9 +77,9 @@ class WebViewFragment : Fragment() {
                     if (webView.canGoBack()) {
                         webView.goBack()
                     } else {
-                        // Matikan callback dan kirim event ke activity
+                        // Matikan callback dan navigasi kembali
                         isEnabled = false
-                        requireActivity().onBackPressed()
+                        findNavController().navigateUp()
                     }
                 }
             }

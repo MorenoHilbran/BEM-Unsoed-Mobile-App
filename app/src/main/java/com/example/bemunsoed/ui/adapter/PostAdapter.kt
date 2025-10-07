@@ -46,7 +46,7 @@ class PostAdapter(
         fun bind(post: Post) {
             // Set user avatar from predefined options
             val profilePhotoRes = if (!post.authorProfilePhotoId.isNullOrEmpty()) {
-                ProfileOptionsManager.getProfilePhotoDrawable(post.authorProfilePhotoId!!)
+                ProfileOptionsManager.getProfilePhotoDrawable(post.authorProfilePhotoId)
             } else {
                 ProfileOptionsManager.getProfilePhotoDrawable("default")
             }

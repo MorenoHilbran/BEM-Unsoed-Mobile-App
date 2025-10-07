@@ -102,7 +102,7 @@ class LoginActivity : AppCompatActivity() {
             .setTitle("Lupa Password")
             .setMessage("Masukkan email yang terdaftar. Kami akan mengirimkan link untuk reset password ke email Anda.")
             .setView(dialogView)
-            .setPositiveButton("Kirim") { dialog: DialogInterface, which: Int ->
+            .setPositiveButton("Kirim") { _, _ ->
                 val email = emailEditText.text.toString().trim()
                 sendPasswordResetEmail(email)
             }

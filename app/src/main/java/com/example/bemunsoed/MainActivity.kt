@@ -55,13 +55,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupNavigation() {
-        val navController = findNavController(R.id.nav_host_fragment_activity_main)
-        val appBarConfiguration = AppBarConfiguration(
-            setOf(R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_notifications)
-        )
-
-        // Use the navController and appBarConfiguration if needed for future navigation setup
-        // For now, custom bottom navigation is handled separately
+        // Navigation is handled by custom bottom navigation
+        // NavController setup can be added here if needed in the future
     }
 
     private fun setupCustomBottomNavigation() {

@@ -78,7 +78,7 @@ class HomeFragment : Fragment() {
 
 // Observasi data user untuk menampilkan nama
         profileViewModel.currentUser.observe(viewLifecycleOwner) { user ->
-            val name = user.name ?: "Pengguna"
+            val name = user.name.ifEmpty { "Pengguna" }
             tvWelcome.text = "Selamat datang, $name!"
         }
 
@@ -167,8 +167,13 @@ class HomeFragment : Fragment() {
     }
 
     private fun setupMenuClickListeners() {
-        menuInfoKos.setOnClickListener { showComingSoonDialog() }
-        menuKuliner.setOnClickListener { showComingSoonDialog() }
+        menuInfoKos.setOnClickListener {
+            findNavController().navigate(R.id.infoKosFragment)
+        }
+        
+        menuKuliner.setOnClickListener {
+            findNavController().navigate(R.id.kulinerFragment)
+        }
 
         // Menu dengan WebView
         menuPodcast.setOnClickListener {

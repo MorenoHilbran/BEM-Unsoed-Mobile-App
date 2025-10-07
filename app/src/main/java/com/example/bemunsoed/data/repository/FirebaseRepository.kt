@@ -517,7 +517,7 @@ class FirebaseRepository {
 
             // Get post data for notification
             val postSnapshot = postRef.get().await()
-            val post = postSnapshot.toObject(Post::class.java)?.copy(id = postSnapshot.id)
+            postSnapshot.toObject(Post::class.java)?.copy(id = postSnapshot.id)
 
             firestore.runTransaction { transaction ->
                 val postSnapshotTx = transaction.get(postRef)
@@ -652,7 +652,7 @@ class FirebaseRepository {
     }
 
     // Toggle like on a comment
-    suspend fun toggleCommentLike(commentId: String, postId: String): Result<Boolean> = withContext(Dispatchers.IO) {
+    suspend fun toggleCommentLike(commentId: String, @Suppress("UNUSED_PARAMETER") postId: String): Result<Boolean> = withContext(Dispatchers.IO) {
         return@withContext try {
             ensureAuthIfNeeded()
             val currentUser = auth.currentUser
@@ -799,7 +799,7 @@ class FirebaseRepository {
                             authorProfilePhotoId = it.authorProfilePhotoId, // Map profile photo ID
                             content = it.content,
                             createdAt = it.createdAt,
-                            likeCount = it.likedBy?.size ?: 0,
+                            likeCount = it.likedBy.size,
                             isLiked = isLiked,
                             likedBy = it.likedBy
                         )
@@ -1133,7 +1133,7 @@ class FirebaseRepository {
             }
             
             // Wait for upload to complete
-            val uploadResult = uploadTask.await()
+            uploadTask.await()
             Log.d("FirebaseRepository", "Upload task completed successfully")
 
             // Get the download URL

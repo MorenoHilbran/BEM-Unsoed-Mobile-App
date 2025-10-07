@@ -95,5 +95,17 @@
             app:argType="string" />
     </fragment>
 
+    <fragment
+        android:id="@+id/kulinerFragment"
+        android:name="com.example.bemunsoed.ui.kuliner.KulinerFragment"
+        android:label="Kuliner"
+        tools:layout="@layout/fragment_kuliner" />
+
+    <fragment
+        android:id="@+id/infoKosFragment"
+        android:name="com.example.bemunsoed.ui.infokos.InfoKosFragment"
+        android:label="Info Kos"
+        tools:layout="@layout/fragment_infokos" />
+
 
 </navigation>

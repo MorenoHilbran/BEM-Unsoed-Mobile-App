@@ -45,7 +45,7 @@ class ProfileOptionAdapter(
             ivSelected.visibility = if (isSelected) View.VISIBLE else View.GONE
 
             itemView.setOnClickListener {
-                val position = adapterPosition
+                val position = bindingAdapterPosition
                 if (position != RecyclerView.NO_POSITION) {
                     setSelectedPosition(position)
                     onOptionSelected(option)

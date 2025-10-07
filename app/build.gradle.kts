@@ -4,6 +4,9 @@ plugins {
     id("com.google.gms.google-services")
 }
 
+// Import untuk suppress compiler warnings
+import org.gradle.api.tasks.compile.JavaCompile
+
 android {
     namespace = "com.example.bemunsoed"
     compileSdk = 34
@@ -34,6 +37,12 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
+    
+    // Suppress Java compiler warnings about Java 8 being obsolete
+    tasks.withType<JavaCompile> {
+        options.compilerArgs.add("-Xlint:-options")
+    }
+    
     buildFeatures {
         viewBinding = true
     }
